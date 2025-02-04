@@ -3,26 +3,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps: 
-      - name: Enable Debug Logging
-        run: |
-          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
-          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-
+    steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-
-      - name: Print Current Directory
-        run: pwd
-
-      - name: List Files for Debugging
-        run: ls -la
-
-      - name: Fix Dockerfile Permissions
-        run: chmod 644 ./Dockerfile
-
-      - name: Build Docker Image
-        run: docker build --no-cache --progress=plain -t podcast-generator -f ./Dockerfile .
-        
       - name: Run Feed Generator
-        run: docker run podcast-generator
+        run: planetoftheweb/podcast-generator
