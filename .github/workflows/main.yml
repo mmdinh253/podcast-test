@@ -12,11 +12,14 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      - name: List Files for Debugging
+        run: ls -la
+
+      - name: Fix Dockerfile Permissions  # ✅ New step
+        run: chmod 644 Dockerfile
+
       - name: Build Docker Image
         run: docker build --no-cache --progress=plain -t podcast-generator .
 
       - name: Run Feed Generator
         run: docker run podcast-generator
-
-      - name: List Files for Debugging
-        run: ls -la
