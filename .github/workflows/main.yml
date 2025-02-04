@@ -17,3 +17,6 @@ jobs:
 
       - name: Run Feed Generator
         run: docker run podcast-generator
+
+      - name: List Files for Debugging
+        run: ls -la
