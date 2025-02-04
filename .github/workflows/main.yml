@@ -3,6 +3,9 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}  # ✅ Set default working directory
     steps: 
       - name: Enable Debug Logging
         run: |
@@ -15,11 +18,11 @@ jobs:
       - name: List Files for Debugging
         run: ls -la
 
-      - name: Fix Dockerfile Permissions  # ✅ New step
-        run: chmod 644 Dockerfile
+      - name: Fix Dockerfile Permissions
+        run: chmod 644 ${{ github.workspace }}/Dockerfile  # ✅ Use absolute path
 
       - name: Build Docker Image
-        run: docker build --no-cache --progress=plain -t podcast-generator .
+        run: docker build --no-cache --progress=plain -t podcast-generator -f ${{ github.workspace }}/Dockerfile ${{ github.workspace }}
 
       - name: Run Feed Generator
         run: docker run podcast-generator
